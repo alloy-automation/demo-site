@@ -1,6 +1,4 @@
-# lukewarm.coffee
-A playground for all coding things
-# Alloy Automation Demo Site README
+# Alloy Automation Demo Site
 
 ## Introduction
 
