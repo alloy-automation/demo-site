@@ -1,3 +1,6 @@
+// index.js
+import { ALLOY_BASE_URL } from './config.js';  // Make sure the path is correct
+
 document.getElementById('goButton').addEventListener('click', async () => {
     const apiKey = document.getElementById('apiKey').value;
     const errorMessage = document.getElementById('errorMessage');
@@ -9,7 +12,7 @@ document.getElementById('goButton').addEventListener('click', async () => {
 
     try {
         // Check if user exists
-        let response = await fetch('https://embedded.runalloy.com/2023-06/users', {
+        let response = await fetch(`${ALLOY_BASE_URL}/users`, {  // Append the endpoint to the base URL
             method: 'GET',
             headers: {
                 'Authorization': `bearer ${apiKey}`,
@@ -31,7 +34,7 @@ document.getElementById('goButton').addEventListener('click', async () => {
             userId = existingUser.userId;
         } else {
             // Create a new user if the specific user does not exist
-            response = await fetch('https://embedded.runalloy.com/2023-06/users/', {
+            response = await fetch(`${ALLOY_BASE_URL}/users`, {  // Append the endpoint to the base URL again
                 method: 'POST',
                 headers: {
                     'Authorization': `bearer ${apiKey}`,

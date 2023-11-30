@@ -27,35 +27,6 @@ async function selectIntegration(integrationId) {
     });
 }
 
-async function connectHeadlessly(integrationId, appName) {
-    if (appName === "Shopify" || appName === "Salesforce CRM") {
-        const subdomain = prompt("Please enter your shop subdomain:");
-        if (subdomain) {
-            try {
-                const apiKey = sessionStorage.getItem('apiKey');
-                const userId = sessionStorage.getItem('userId');
-                const response = await fetch(`https://embedded.runalloy.com/2023-01/users/${userId}/credentials/${appName.toLowerCase()}?integrationId=${integrationId}&shopSubdomain=${subdomain}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `bearer ${apiKey}`,
-                        'Accept': 'application/json'
-                    }
-                });
-                const data = await response.json();
-                if (data.data && data.data.redirectUrl) {
-                    window.open(data.data.redirectUrl, '_blank');
-                } else {
-                    console.error("Failed to get redirect URL");
-                }
-            } catch (error) {
-                console.error('Error connecting headlessly:', error);
-            }
-        }
-    } else {
-        alert("Headless connection is not supported for this app.");
-    }
-}
-
 // Fetch the integration data and render the options
 (async function () {
     Alloy.setToken(window.magicallyToken);
