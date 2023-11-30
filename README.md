@@ -32,6 +32,7 @@ Open `http://localhost:3000` in your browser and enter your Alloy API key when p
 
 ## Features
 
+- Creates or uses `demo-app-default@ruanlloy.com ` Alloy user (automatic)
 - Dynamically loads the integrations you have released in your Alloy account.
 - Connect and set up integrations through the user interface.
 <img width="800" alt="image" src="https://github.com/kellygold/alloy-demo-site/assets/28990947/2e106f03-aef6-454d-8482-09556c40b923">
