@@ -27,11 +27,13 @@ npm start
 ```
 
 Open `http://localhost:3000` in your browser and enter your Alloy API key when prompted.
+<img width="800" alt="image" src="https://github.com/kellygold/alloy-demo-site/assets/28990947/4313b6c8-f37b-4eaa-b0f6-918057c8bd43">
 
 ## Features
 
 - Dynamically loads the integrations you have released in your Alloy account.
 - Connect and set up integrations through the user interface.
+<img width="800" alt="image" src="https://github.com/kellygold/alloy-demo-site/assets/28990947/2e106f03-aef6-454d-8482-09556c40b923">
 
 For more information on how integrations are structured in Alloy, visit the [Alloy documentation](https://docs.runalloy.com/docs/integrations).
 
