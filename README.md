@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository hosts the Alloy Automation Demo Site, showcasing how to build an integration marketplace using Alloy's APIs and SDKs. By inserting your API key, you can connect to Alloy's platform and access the integration marketplace, simulating the marketplace setup process.
+This repository hosts the Alloy Automation Demo Site, showcasing how to build an integration marketplace using Alloy's APIs and SDKs. By inserting your API key, you can connect to your Alloy Embedded account to load your integrations simulating the marketplace setup and the experience for your end users.
 
 ## Quick Start
 
