@@ -14,7 +14,10 @@ npm install
 
 ## Setup
 
-You will need your Alloy API key to use this demo. Find it in your Alloy Embedded account settings. For safety, use the development API key, which is only stored for the session's duration.
+You will need your Alloy API key to use this demo. Find it in your Alloy Embedded account settings. For safety, use the development API key, which will be stored on the frontend in the local storage temporarily for the duration of the session.
+
+:warning: **Warning:** Storing API keys on the frontend is not a recommended practice as it can expose the key to potential security risks. In this demo application, the API key is stored in the local storage to simulate the functionality, which should only be done in a secure, controlled environment. Be sure to remove your API keys from local storage and not use this method in a production environment.
+
 
 ## Running the Demo Site
 
