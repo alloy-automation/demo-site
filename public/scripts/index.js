@@ -1,5 +1,5 @@
 // index.js
-import { ALLOY_BASE_URL } from './config.js';  // Make sure the path is correct
+import { ALLOY_BASE_URL } from './config.js';
 
 document.getElementById('goButton').addEventListener('click', async () => {
     const apiKey = document.getElementById('apiKey').value;
@@ -11,54 +11,24 @@ document.getElementById('goButton').addEventListener('click', async () => {
     }
 
     try {
-        // Check if user exists
-        let response = await fetch(`${ALLOY_BASE_URL}/users`, {  // Append the endpoint to the base URL
-            method: 'GET',
+        let response = await fetch(`/set-api-key`, {  
+            method: 'POST',
             headers: {
-                'Authorization': `bearer ${apiKey}`,
-                'Accept': 'application/json'
-            }
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ apiKey: apiKey })
         });
 
-        if (response.status === 401) {
-            errorMessage.textContent = "Unauthorized. Please check your API key.";
-            return;
+        if (!response.ok) {
+            throw new Error('Failed to initialize API key');
         }
 
-        let data = await response.json();
-        let userId;
+        const { userId } = await response.json();
 
-        const existingUser = data.data.find(user => user.username === "demo-app-default@test.com");
-
-        if (existingUser) {
-            userId = existingUser.userId;
-        } else {
-            // Create a new user if the specific user does not exist
-            response = await fetch(`${ALLOY_BASE_URL}/users`, {  // Append the endpoint to the base URL again
-                method: 'POST',
-                headers: {
-                    'Authorization': `bearer ${apiKey}`,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "username": "demo-app-default@test.com",
-                    "fullName": "Demo User"
-                })
-            });
-
-            data = await response.json();
-            userId = data.userId;
-        }
-
-        // Store the API key and userId in the session (you can use local storage or session storage)
-        sessionStorage.setItem('apiKey', apiKey);
-        sessionStorage.setItem('userId', userId);
-
-        // Redirect to the integrations page
-        window.location.href = `/success?userId=${userId}&apiKey=${apiKey}`;
-
+        window.location.href = `/success?userId=${userId}`;
     } catch (error) {
+        console.error(error);
         errorMessage.textContent = "An error occurred. Please try again.";
     }
 });
