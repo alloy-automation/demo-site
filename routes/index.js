@@ -3,36 +3,62 @@ var router = express.Router();
 const Alloy = require("alloy-node");
 
 /* GET home page. */
-router.get('/', async function(req, res, next) {
+router.get('/', async function(req, res) {
     res.render('index');
 });
 
-router.get('/success', async function(req, res, next) {
+router.post('/set-api-key', async function(req, res) {
+  const { apiKey } = req.body;
+
+  if (!apiKey) {
+      return res.status(400).json({ error: "API key is required" });
+  }
+
+  req.session.apiKey = apiKey;
+
+  const dynamicAlloy = new Alloy(apiKey);
+
   try {
-    const userId = req.query.userId; // Get userId from query parameters
-    const apiKey = req.query.apiKey; // Get apiKey from query parameters
+      const usersResponse = await dynamicAlloy.getUsers();
+      let userId;
 
-    if (!userId || !apiKey) {
-      return res.status(400).json({error: "UserId and API key are required"});
-    }
+      const existingUser = usersResponse.data.find(user => user.username === "demo-app-default@test.com");
 
-    // Initialize Alloy with the provided apiKey
-    const dynamicAlloy = new Alloy(apiKey);
+      if (existingUser) {
+          userId = existingUser.userId;
+      } else {
+          const newUserResponse = await dynamicAlloy.createUser({
+              username: "demo-app-default@test.com",
+              fullName: "Demo User"
+          });
+          userId = newUserResponse.userId;
+      }
 
-    await dynamicAlloy.identify(userId);
-
-    var tokenObj = await dynamicAlloy.getUserToken();
-
-    // Access the token property of the tokenObj
-    var token = tokenObj.token;
-
-    res.render('integrations', {data: {token: token}});
+      res.json({ userId: userId });
   } catch (error) {
-    console.error("Error in the route handler:", error);
-    res.status(500).send("An error occurred");
+      console.error("Error in /set-api-key route:", error);
+      res.status(500).send("An error occurred while setting the API key");
   }
 });
 
+router.get('/success', async function(req, res) {
+    const userId = req.query.userId;
 
+    if (!userId || !req.session.apiKey) {
+        return res.status(400).json({ error: "UserId and API key are required in the session" });
+    }
+
+    const dynamicAlloy = new Alloy(req.session.apiKey);
+
+    try {
+        await dynamicAlloy.identify(userId);
+        var tokenObj = await dynamicAlloy.getUserToken();
+        var token = tokenObj.token;
+        res.render('integrations', {data: {token: token}});
+    } catch (error) {
+        console.error("Error in /success route:", error);
+        res.status(500).send("An error occurred");
+    }
+});
 
 module.exports = router;
