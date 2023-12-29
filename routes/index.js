@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Alloy = require("alloy-node");
+const { v4: uuidv4 } = require('uuid');
 
 /* GET home page. */
 router.get('/', async function(req, res) {
@@ -28,7 +29,7 @@ router.post('/set-api-key', async function(req, res) {
           userId = existingUser.userId;
       } else {
           const newUserResponse = await dynamicAlloy.createUser({
-              username: "demo-app-default@test.com",
+              username: `demo-app-default+${uuidv4()}@test.com`,
               fullName: "Demo User"
           });
           userId = newUserResponse.userId;
