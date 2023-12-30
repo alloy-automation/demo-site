@@ -23,7 +23,8 @@ router.post('/set-api-key', async function(req, res) {
       const usersResponse = await dynamicAlloy.getUsers();
       let userId;
 
-      const existingUser = usersResponse.data.find(user => user.username === "demo-app-default@test.com");
+      const regex = /^demo-app-default\+.+@test\.com$/;
+      const existingUser = usersResponse.data.find(user => regex.test(user.username));
 
       if (existingUser) {
           userId = existingUser.userId;
